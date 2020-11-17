@@ -35,7 +35,11 @@ contract Verifier is KeysWithPlonkVerifier {
             vkIndexes[i] = blockSizeToVkIndex(_block_sizes[i]);
         }
         VerificationKey memory vk = getVkAggregated(uint32(_block_sizes.length));
-        return  verify_serialized_proof_with_recursion(_recursiveInput, _proof, VK_TREE_ROOT, VK_MAX_INDEX, vkIndexes, _individual_vks_inputs, _subproofs_limbs, vk);
+        uint256[16] memory _subprlibms;
+        for (uint8 i = 0; i < 16; i++) {
+            _subprlibms[i] = _subproofs_limbs[i];
+        }
+        return  verify_serialized_proof_with_recursion(_recursiveInput, _proof, VK_TREE_ROOT, VK_MAX_INDEX, vkIndexes, _individual_vks_inputs, _subprlibms, vk);
     }
 
     function verifyExitProof(
